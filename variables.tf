@@ -15,6 +15,11 @@
 #######################################################################
 # Service Account for GKE
 
+variable project {
+  type        = string
+  description = "Project associated with the Service Account"
+}
+
 variable sa_roles {
   type        = set(string)
   description = "Role(s) to bind to the service account set into the cluster"
@@ -27,17 +32,17 @@ variable sa_roles {
   ]
 }
 
-#######################################################################
-# Kubernetes cluster
-
-variable name {
-  description = "Cluster name"
-  type        = string
-}
+############################################################################
+# Kubernetes
 
 variable location {
   type        = string
   description = "The location of the cluster"
+}
+
+variable name {
+  description = "Cluster name"
+  type        = string
 }
 
 variable network {
@@ -58,51 +63,59 @@ variable release_channel {
 variable network_config {
   description = "VPC network configuration for the cluster"
   type        = map
-
-  default = {
-    enable_natgw   = false
-    enable_ssh     = false
-    private_master = false
-    private_nodes  = true
-    node_cidr      = "10.0.0.0/24"
-    service_cidr   = "10.1.0.0/24"
-    pod_cidr       = "10.2.0.0/24"
-    master_cidr    = "10.20.30.0/28"
-  }
 }
 
 variable master_ipv4_cidr_block {
   type = string
 }
 
+# variable bastion_external_ip_name {
+#   type        = string
+#   description = "Name of the bastion external IP address"
+# }
+
+# variable nat_external_ip_0_name {
+#   type        = string
+#   description = "Name of the first External IP to use"
+# }
+
+# variable nat_external_ip_1_name {
+#   type        = string
+#   description = "Name of the second External IP to use"
+# }
+
 variable master_authorized_networks {
   type        = list(object({ cidr_block = string, display_name = string }))
   description = "List of master authorized networks"
-  default = [
-    {
-      cidr_block   = "0.0.0.0/0"
-      display_name = "internet"
-    }
-  ]
+  # default = [
+  #   {
+  #     cidr_block   = "0.0.0.0/0"
+  #     display_name = "internet"
+  #   }
+  # ]
 }
 
 variable labels {
   description = "List of Kubernetes labels to apply to the nodes"
   type        = map
-  default = {
-    env     = "test"
-    made-by = "terraform"
-  }
+}
+
+variable tags {
+  description = "The list of instance tags applied to all nodes."
+  type        = list
+  default     = []
 }
 
 variable rbac_group_domain {
   description = "Google Groups for RBAC requires a G Suite domain"
   type        = string
+  default     = "skale-5.com"
 }
 
 variable network_policy {
   description = "Enable Network Policy"
   type        = bool
+  default     = true
 }
 
 variable auto_scaling {
@@ -123,6 +136,7 @@ variable datapath_provider {
 variable pod_security_policy {
   description = "Enable Pod Security Policy"
   type        = bool
+  default     = true
 }
 
 variable monitoring_service {
@@ -140,6 +154,7 @@ variable logging_service {
 variable binary_authorization {
   description = "Enable Binary Authorization"
   type        = bool
+  default     = true
 }
 
 variable google_cloud_load_balancer {
@@ -163,7 +178,7 @@ variable csi_driver {
 }
 
 variable maintenance_start_time {
-  description = "Time window specified for daily maintenance operations in RFC3339 format"
+  description = ""
   type        = string
   default     = "03:00"
 }
@@ -197,7 +212,7 @@ variable default_max_pods_per_node {
   description = "The default maximum number of pods per node in this cluster."
 }
 
-#######################################################################
+#####################################################################""
 # Kubernetes node pool
 
 variable default_service_account {
@@ -218,19 +233,16 @@ variable node_count {
 variable min_node_count {
   type        = number
   description = "Minimum number of nodes in the NodePool."
-  default     = 3
 }
 
 variable max_node_count {
   type        = number
   description = "Maxiumum number of nodes in the NodePool."
-  default     = 6
 }
 
 variable max_pods_per_node {
   description = "The maximum number of pods per node in this node pool."
   type        = number
-  default     = 32
 }
 
 variable oauth_scopes {
@@ -255,40 +267,44 @@ variable node_metadata {
   default     = "GKE_METADATA_SERVER"
 }
 
-variable image_type {
-  type        = string
-  description = "The image type to use for this node"
-  default     = "COS"
-}
-
 variable machine_type {
   type        = string
   description = "The name of a Google Compute Engine machine type"
 }
 
+variable image_type {
+  default = "COS"
+}
+
 variable disk_size_gb {
-  type        = number
-  description = "Size of the disk attached to each node"
-  default     = 100
 }
 
 variable preemptible {
-  type        = bool
-  description = "Whether the node VMs are preemptible"
 }
 
 variable node_labels {
-  type        = map
-  description = "The Kubernetes labels (key/value pairs) to be applied to each node"
-  default = {
-    node = "default"
-    env  = "test"
-  }
+  type = map
 }
 
 variable node_tags {
-  type        = list
-  description = "The list of instance tags applied to all nodes"
-  default     = ["kubernetes", "nodes"]
+  type = list(string)
 }
 
+#######################################################################
+# Node pools addons
+
+variable node_pools {
+  description = "Addons node pools"
+  type = list(object({
+    name                    = string
+    default_service_account = string
+    node_count              = number
+    min_node_count          = number
+    max_node_count          = number
+    machine_type            = string
+    disk_size_gb            = number
+    max_pods_per_node       = number
+    preemptible             = bool
+  }))
+  default = []
+}

@@ -26,10 +26,10 @@ resource "google_container_cluster" "cluster" {
   subnetwork = var.subnet_network
 
   # google groups for rbac
-  authenticator_groups_config {
-    security_group = (var.rbac_group_domain != "" ? join(
-    "@", ["gke-security-groups", var.rbac_group_domain]) : var.rbac_group_domain)
-  }
+  # authenticator_groups_config {
+  #   security_group = (var.rbac_group_domain != "" ? join(
+  #   "@", ["gke-security-groups", var.rbac_group_domain]) : var.rbac_group_domain)
+  # }
 
   release_channel {
     channel = var.release_channel
