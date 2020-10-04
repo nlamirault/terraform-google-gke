@@ -215,36 +215,6 @@ variable default_max_pods_per_node {
 #####################################################################""
 # Kubernetes node pool
 
-variable default_service_account {
-  type        = bool
-  description = "Use or not the default service account"
-}
-
-variable node_pool_name {
-  description = "Node pool name"
-  type        = string
-}
-
-variable node_count {
-  type        = number
-  description = "The number of nodes per instance group"
-}
-
-variable min_node_count {
-  type        = number
-  description = "Minimum number of nodes in the NodePool."
-}
-
-variable max_node_count {
-  type        = number
-  description = "Maxiumum number of nodes in the NodePool."
-}
-
-variable max_pods_per_node {
-  description = "The maximum number of pods per node in this node pool."
-  type        = number
-}
-
 variable oauth_scopes {
   type        = list(string)
   description = "Other oauth scopes to add to the node pools"
@@ -267,19 +237,8 @@ variable node_metadata {
   default     = "GKE_METADATA_SERVER"
 }
 
-variable machine_type {
-  type        = string
-  description = "The name of a Google Compute Engine machine type"
-}
-
 variable image_type {
   default = "COS"
-}
-
-variable disk_size_gb {
-}
-
-variable preemptible {
 }
 
 variable node_labels {
