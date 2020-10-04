@@ -30,6 +30,16 @@ variable sa_roles {
 #######################################################################
 # Kubernetes cluster
 
+variable name {
+  description = "Cluster name"
+  type        = string
+}
+
+variable location {
+  type        = string
+  description = "The location of the cluster"
+}
+
 variable network {
   type        = string
   description = "Name of the network to use"
@@ -38,11 +48,6 @@ variable network {
 variable subnet_network {
   type        = string
   description = "Name of the subnet to use"
-}
-
-variable name {
-  description = "Cluster name"
-  type        = string
 }
 
 variable release_channel {
