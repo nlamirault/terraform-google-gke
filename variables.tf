@@ -264,6 +264,7 @@ variable node_pools {
     disk_size_gb            = number
     max_pods_per_node       = number
     preemptible             = bool
+    taints                  = list(map(string))
   }))
   default = []
 }
