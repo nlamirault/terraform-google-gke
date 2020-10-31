@@ -70,19 +70,16 @@ resource "google_container_cluster" "cluster" {
 
   # enable_shielded_nodes = var.shielded_nodes
 
-  cluster_autoscaling {
-    enabled = var.auto_scaling
-
-    resource_limits {
-      resource_type = "cpu"
-      maximum       = var.auto_scaling_max_cpu
-      minimum       = var.auto_scaling_min_cpu
-    }
-
-    resource_limits {
-      resource_type = "memory"
-      maximum       = var.auto_scaling_max_mem
-      minimum       = var.auto_scaling_min_mem
+  dynamic "master_authorized_networks_config" {
+    for_each = local.master_authorized_networks_config
+    content {
+      dynamic "cidr_blocks" {
+        for_each = master_authorized_networks_config.value.cidr_blocks
+        content {
+          cidr_block   = lookup(cidr_blocks.value, "cidr_block", "")
+          display_name = lookup(cidr_blocks.value, "display_name", "")
+        }
+      }
     }
   }
 
