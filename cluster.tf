@@ -70,15 +70,14 @@ resource "google_container_cluster" "cluster" {
 
   # enable_shielded_nodes = var.shielded_nodes
 
-  dynamic "master_authorized_networks_config" {
-    for_each = local.master_authorized_networks_config
-    content {
-      dynamic "cidr_blocks" {
-        for_each = master_authorized_networks_config.value.cidr_blocks
-        content {
-          cidr_block   = lookup(cidr_blocks.value, "cidr_block", "")
-          display_name = lookup(cidr_blocks.value, "display_name", "")
-        }
+  cluster_autoscaling {
+    enabled = var.auto_scaling
+    dynamic "resource_limits" {
+      for_each = local.autoscalling_resource_limits
+      content {
+        resource_type = lookup(resource_limits.value, "resource_type")
+        minimum       = lookup(resource_limits.value, "minimum")
+        maximum       = lookup(resource_limits.value, "maximum")
       }
     }
   }
