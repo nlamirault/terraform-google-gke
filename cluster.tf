@@ -68,7 +68,7 @@ resource "google_container_cluster" "cluster" {
     }
   }
 
-  # enable_shielded_nodes = var.shielded_nodes
+  enable_shielded_nodes = var.shielded_nodes
 
   cluster_autoscaling {
     enabled = var.auto_scaling
