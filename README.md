@@ -1,4 +1,4 @@
-# terraform-gcp-kubernetes
+# terraform-gcp-gke
 
 Terraform module which configure a Kubernetes cluster on Google Cloud
 
@@ -163,3 +163,63 @@ This module creates :
 * node pool(s)
 
 ## Documentation
+
+### Providers
+
+| Name | Version |
+|------|---------|
+| google | >= 3.41.0 |
+| google-beta | >= 3.41.0 |
+| random | n/a |
+
+### Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:-----:|
+| auto\_repair | Whether the nodes will be automatically repaired | `bool` | n/a | yes |
+| auto\_scaling | Enable cluster autoscaling | `bool` | n/a | yes |
+| auto\_scaling\_max\_cpu | n/a | `number` | `10` | no |
+| auto\_scaling\_max\_mem | n/a | `number` | `20` | no |
+| auto\_scaling\_min\_cpu | n/a | `number` | `5` | no |
+| auto\_scaling\_min\_mem | n/a | `number` | `5` | no |
+| auto\_upgrade | Whether the nodes will be automatically upgraded | `bool` | n/a | yes |
+| binary\_authorization | Enable Binary Authorization | `bool` | `true` | no |
+| cloudrun | Enable Cloud Run on GKE (requires istio) | `bool` | n/a | yes |
+| config\_connector | Enable the ConfigConnector addon | `bool` | n/a | yes |
+| csi\_driver | Enable Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver | `bool` | n/a | yes |
+| datapath\_provider | The desired datapath provider for this cluster | `string` | n/a | yes |
+| default\_max\_pods\_per\_node | The default maximum number of pods per node in this cluster. | `number` | n/a | yes |
+| google\_cloud\_load\_balancer | Enable Google load balancer | `bool` | n/a | yes |
+| hpa | Enable Horizontal Pod Autoscaling | `bool` | n/a | yes |
+| image\_type | n/a | `string` | `"COS"` | no |
+| istio | Enable Istio | `bool` | n/a | yes |
+| labels | List of Kubernetes labels to apply to the nodes | `map` | n/a | yes |
+| location | The location of the cluster | `string` | n/a | yes |
+| logging\_service | Enable logging Service | `bool` | `true` | no |
+| maintenance\_start\_time | n/a | `string` | `"03:00"` | no |
+| master\_authorized\_networks | List of master authorized networks | `list(object({ cidr_block = string, display_name = string }))` | n/a | yes |
+| master\_ipv4\_cidr\_block | n/a | `string` | n/a | yes |
+| monitoring\_service | Enable monitoring Service | `bool` | `true` | no |
+| name | Cluster name | `string` | n/a | yes |
+| network | Name of the network to use | `string` | n/a | yes |
+| network\_config | VPC network configuration for the cluster | `map` | n/a | yes |
+| network\_policy | Enable Network Policy | `bool` | `true` | no |
+| node\_labels | n/a | `map` | n/a | yes |
+| node\_metadata | How to expose the node metadata to the workload running on the node. | `string` | `"GKE_METADATA_SERVER"` | no |
+| node\_pools | Addons node pools | <pre>list(object({<br>    name                    = string<br>    default_service_account = string<br>    node_count              = number<br>    min_node_count          = number<br>    max_node_count          = number<br>    machine_type            = string<br>    disk_size_gb            = number<br>    max_pods_per_node       = number<br>    preemptible             = bool<br>  }))</pre> | `[]` | no |
+| node\_tags | n/a | `list(string)` | n/a | yes |
+| oauth\_scopes | Other oauth scopes to add to the node pools | `list(string)` | `[]` | no |
+| pod\_security\_policy | Enable Pod Security Policy | `bool` | `true` | no |
+| project | Project associated with the Service Account | `string` | n/a | yes |
+| rbac\_group\_domain | Google Groups for RBAC requires a G Suite domain | `string` | `"skale-5.com"` | no |
+| release\_channel | Release cadence of the GKE cluster | `string` | n/a | yes |
+| sa\_roles | Role(s) to bind to the service account set into the cluster | `set(string)` | <pre>[<br>  "roles/logging.logWriter",<br>  "roles/monitoring.metricWriter",<br>  "roles/monitoring.viewer",<br>  "roles/stackdriver.resourceMetadata.writer",<br>  "roles/storage.objectViewer"<br>]</pre> | no |
+| subnet\_network | Name of the subnet to use | `string` | n/a | yes |
+| tags | The list of instance tags applied to all nodes. | `list` | `[]` | no |
+
+### Outputs
+
+| Name | Description |
+|------|-------------|
+| cluster\_endpoint | The IP address of the cluster master. |
+

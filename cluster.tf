@@ -137,6 +137,10 @@ resource "google_container_cluster" "cluster" {
     gce_persistent_disk_csi_driver_config {
       enabled = var.csi_driver
     }
+
+    config_connector_config {
+      enabled =  var.config_connector
+    }
   }
 
   maintenance_policy {
