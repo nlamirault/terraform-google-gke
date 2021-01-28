@@ -18,6 +18,16 @@ locals {
     cidr_blocks : var.master_authorized_networks
   }]
 
+  autoscalling_resource_limits = var.auto_scaling ? [{
+    resource_type = "cpu"
+    minimum       = var.auto_scaling_min_cpu
+    maximum       = var.auto_scaling_max_cpu
+    }, {
+    resource_type = "memory"
+    minimum       = var.auto_scaling_min_mem
+    maximum       = var.auto_scaling_max_mem
+  }] : []
+
   oauth_scopes = [
     "https://www.googleapis.com/auth/cloud-platform",
   ]

@@ -72,17 +72,13 @@ resource "google_container_cluster" "cluster" {
 
   cluster_autoscaling {
     enabled = var.auto_scaling
-
-    resource_limits {
-      resource_type = "cpu"
-      maximum       = var.auto_scaling_max_cpu
-      minimum       = var.auto_scaling_min_cpu
-    }
-
-    resource_limits {
-      resource_type = "memory"
-      maximum       = var.auto_scaling_max_mem
-      minimum       = var.auto_scaling_min_mem
+    dynamic "resource_limits" {
+      for_each = local.autoscalling_resource_limits
+      content {
+        resource_type = lookup(resource_limits.value, "resource_type")
+        minimum       = lookup(resource_limits.value, "minimum")
+        maximum       = lookup(resource_limits.value, "maximum")
+      }
     }
   }
 
