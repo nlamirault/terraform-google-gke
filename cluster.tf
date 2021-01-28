@@ -82,6 +82,11 @@ resource "google_container_cluster" "cluster" {
     }
   }
 
+  master_auth {
+	    username = ""
+	    password = ""
+	}
+
   # Stackdriver
   logging_service    = var.logging_service ? "logging.googleapis.com/kubernetes" : "none"
   monitoring_service = var.monitoring_service ? "monitoring.googleapis.com/kubernetes" : "none"
