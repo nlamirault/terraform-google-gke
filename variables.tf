@@ -139,6 +139,12 @@ variable "pod_security_policy" {
   default     = true
 }
 
+variable "shielded_nodes" {
+  description = "Enable Shielded Nodes features on all nodes in this cluster"
+  type        = bool
+  default     = false
+}
+
 variable "monitoring_service" {
   description = "Enable monitoring Service"
   type        = bool
