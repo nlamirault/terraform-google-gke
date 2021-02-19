@@ -2,15 +2,6 @@
 
 Terraform module which configure a Kubernetes cluster on Google Cloud
 
-## Versions
-
-Use Terraform `0.13+` and Terraform Provider Google `3.5+` and Google Beta `3.5+`.
-
-These types of resources are supported:
-
-* [google_container_cluster](https://www.terraform.io/docs/providers/google/r/container_cluster.html)
-* [google_container_node_pool](https://www.terraform.io/docs/providers/google/r/container_node_pool.html)
-
 ## Usage
 
 ```hcl
@@ -156,32 +147,51 @@ node_tags = ["kubernetes", "nodes", "nat-europe-west1"]
 
 ```
 
-This module creates :
-
-* a Kubernetes cluster
-* a service account
-* node pool(s)
-
 ## Documentation
 
-### Providers
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
 
 | Name | Version |
 |------|---------|
-| google | >= 3.41.0 |
-| google-beta | >= 3.41.0 |
-| random | n/a |
+| terraform | >= 0.13.0 |
+| google | 3.54.0 |
+| google-beta | 3.54.0 |
+| random | 3.0.1 |
 
-### Inputs
+## Providers
+
+| Name | Version |
+|------|---------|
+| google | 3.54.0 |
+| google-beta | 3.54.0 |
+| random | 3.0.1 |
+
+## Modules
+
+No Modules.
+
+## Resources
+
+| Name |
+|------|
+| [google-beta_google_container_cluster](https://registry.terraform.io/providers/hashicorp/google-beta/3.54.0/docs/resources/google_container_cluster) |
+| [google-beta_google_container_node_pool](https://registry.terraform.io/providers/hashicorp/google-beta/3.54.0/docs/resources/google_container_node_pool) |
+| [google_client_config](https://registry.terraform.io/providers/hashicorp/google/3.54.0/docs/data-sources/client_config) |
+| [google_project_iam_member](https://registry.terraform.io/providers/hashicorp/google/3.54.0/docs/resources/project_iam_member) |
+| [google_service_account](https://registry.terraform.io/providers/hashicorp/google/3.54.0/docs/resources/service_account) |
+| [random_string](https://registry.terraform.io/providers/hashicorp/random/3.0.1/docs/resources/string) |
+
+## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | auto\_repair | Whether the nodes will be automatically repaired | `bool` | n/a | yes |
 | auto\_scaling | Enable cluster autoscaling | `bool` | n/a | yes |
-| auto\_scaling\_max\_cpu | n/a | `number` | `10` | no |
-| auto\_scaling\_max\_mem | n/a | `number` | `20` | no |
-| auto\_scaling\_min\_cpu | n/a | `number` | `5` | no |
-| auto\_scaling\_min\_mem | n/a | `number` | `5` | no |
+| auto\_scaling\_max\_cpu | Maximum amount of CPU in the cluster | `number` | `10` | no |
+| auto\_scaling\_max\_mem | Maximum amount of Memory in the cluster. | `number` | `20` | no |
+| auto\_scaling\_min\_cpu | Minimum amount of CPU in the cluster | `number` | `5` | no |
+| auto\_scaling\_min\_mem | Minimum amount of Memory in the cluster | `number` | `5` | no |
 | auto\_upgrade | Whether the nodes will be automatically upgraded | `bool` | n/a | yes |
 | binary\_authorization | Enable Binary Authorization | `bool` | `true` | no |
 | cloudrun | Enable Cloud Run on GKE (requires istio) | `bool` | n/a | yes |
@@ -191,35 +201,34 @@ This module creates :
 | default\_max\_pods\_per\_node | The default maximum number of pods per node in this cluster. | `number` | n/a | yes |
 | google\_cloud\_load\_balancer | Enable Google load balancer | `bool` | n/a | yes |
 | hpa | Enable Horizontal Pod Autoscaling | `bool` | n/a | yes |
-| image\_type | n/a | `string` | `"COS"` | no |
+| image\_type | The image type to use for the node(s) | `string` | `"COS_CONTAINERD"` | no |
 | istio | Enable Istio | `bool` | n/a | yes |
-| labels | List of Kubernetes labels to apply to the nodes | `map` | n/a | yes |
+| labels | List of labels to apply to the cluster | `map(any)` | n/a | yes |
 | location | The location of the cluster | `string` | n/a | yes |
 | logging\_service | Enable logging Service | `bool` | `true` | no |
-| maintenance\_start\_time | n/a | `string` | `"03:00"` | no |
+| maintenance\_start\_time | Time window specified for daily or recurring maintenance operations in RFC3339 format | `string` | `"03:00"` | no |
 | master\_authorized\_networks | List of master authorized networks | `list(object({ cidr_block = string, display_name = string }))` | n/a | yes |
-| master\_ipv4\_cidr\_block | n/a | `string` | n/a | yes |
+| master\_ipv4\_cidr\_block | The IP range in CIDR notation to use for the hosted master network | `string` | n/a | yes |
 | monitoring\_service | Enable monitoring Service | `bool` | `true` | no |
 | name | Cluster name | `string` | n/a | yes |
 | network | Name of the network to use | `string` | n/a | yes |
-| network\_config | VPC network configuration for the cluster | `map` | n/a | yes |
+| network\_config | VPC network configuration for the cluster | `map(any)` | n/a | yes |
 | network\_policy | Enable Network Policy | `bool` | `true` | no |
-| node\_labels | n/a | `map` | n/a | yes |
+| node\_labels | Map of labels apply to nodes | `map(any)` | n/a | yes |
 | node\_metadata | How to expose the node metadata to the workload running on the node. | `string` | `"GKE_METADATA_SERVER"` | no |
 | node\_pools | Addons node pools | <pre>list(object({<br>    name                    = string<br>    default_service_account = string<br>    node_count              = number<br>    min_node_count          = number<br>    max_node_count          = number<br>    machine_type            = string<br>    disk_size_gb            = number<br>    max_pods_per_node       = number<br>    preemptible             = bool<br>  }))</pre> | `[]` | no |
-| node\_tags | n/a | `list(string)` | n/a | yes |
+| node\_tags | List of labels apply to nodes | `list(string)` | n/a | yes |
 | oauth\_scopes | Other oauth scopes to add to the node pools | `list(string)` | `[]` | no |
 | pod\_security\_policy | Enable Pod Security Policy | `bool` | `true` | no |
 | project | Project associated with the Service Account | `string` | n/a | yes |
-| rbac\_group\_domain | Google Groups for RBAC requires a G Suite domain | `string` | `"skale-5.com"` | no |
 | release\_channel | Release cadence of the GKE cluster | `string` | n/a | yes |
 | sa\_roles | Role(s) to bind to the service account set into the cluster | `set(string)` | <pre>[<br>  "roles/logging.logWriter",<br>  "roles/monitoring.metricWriter",<br>  "roles/monitoring.viewer",<br>  "roles/stackdriver.resourceMetadata.writer",<br>  "roles/storage.objectViewer"<br>]</pre> | no |
+| shielded\_nodes | Enable Shielded Nodes features on all nodes in this cluster | `bool` | `false` | no |
 | subnet\_network | Name of the subnet to use | `string` | n/a | yes |
-| tags | The list of instance tags applied to all nodes. | `list` | `[]` | no |
 
-### Outputs
+## Outputs
 
 | Name | Description |
 |------|-------------|
 | cluster\_endpoint | The IP address of the cluster master. |
-
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
