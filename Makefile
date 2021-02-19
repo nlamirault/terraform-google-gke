@@ -12,13 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-APP = T E R R A F O R M  /  A W S - C E R T - M A N A G E R
-
-# GCP_PROJECT_preprod =
-# GCP_PROJECT_prod =
-# GCP_PROJECT = $(GCP_PROJECT_$(ENV))
-GCP_PROJECT = galactus
-GCP_CURRENT_PROJECT = $(shell gcloud info --format='value(config.project)')
+APP = T E R R A F O R M  /  G O O G L E - G K E
 
 SHELL = /bin/bash -o pipefail
 
@@ -41,7 +35,7 @@ WARN=[⚠️]
 
 .PHONY: help
 help:
-	@echo -e "$(OK_COLOR)      $(APP)$(NO_COLOR)"
+	@echo -e "$(OK_COLOR)         $(APP)$(NO_COLOR)"
 	@echo "------------------------------------------------------------------"
 	@echo ""
 	@awk 'BEGIN {FS = ":.*##"; printf "Usage: make ${INFO_COLOR}<target>${NO_COLOR}\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  ${INFO_COLOR}%-25s${NO_COLOR} %s\n", $$1, $$2 } /^##@/ { printf "\n${WHITE_COLOR}%s${NO_COLOR}\n", substr($$0, 5) } ' $(MAKEFILE_LIST)

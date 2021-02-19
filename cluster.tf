@@ -83,9 +83,9 @@ resource "google_container_cluster" "cluster" {
   }
 
   master_auth {
-	    username = ""
-	    password = ""
-	}
+    username = ""
+    password = ""
+  }
 
   # Stackdriver
   logging_service    = var.logging_service ? "logging.googleapis.com/kubernetes" : "none"
@@ -140,7 +140,7 @@ resource "google_container_cluster" "cluster" {
     }
 
     config_connector_config {
-      enabled =  var.config_connector
+      enabled = var.config_connector
     }
   }
 

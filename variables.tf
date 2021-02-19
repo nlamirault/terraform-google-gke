@@ -62,27 +62,13 @@ variable "release_channel" {
 
 variable "network_config" {
   description = "VPC network configuration for the cluster"
-  type        = map
+  type        = map(any)
 }
 
 variable "master_ipv4_cidr_block" {
-  type = string
+  type        = string
+  description = "The IP range in CIDR notation to use for the hosted master network"
 }
-
-# variable "bastion_external_ip_name" {
-#   type        = string
-#   description = "Name of the bastion external IP address"
-# }
-
-# variable "nat_external_ip_0_name" {
-#   type        = string
-#   description = "Name of the first External IP to use"
-# }
-
-# variable "nat_external_ip_1_name" {
-#   type        = string
-#   description = "Name of the second External IP to use"
-# }
 
 variable "master_authorized_networks" {
   type        = list(object({ cidr_block = string, display_name = string }))
@@ -96,20 +82,8 @@ variable "master_authorized_networks" {
 }
 
 variable "labels" {
-  description = "List of Kubernetes labels to apply to the nodes"
-  type        = map
-}
-
-variable "tags" {
-  description = "The list of instance tags applied to all nodes."
-  type        = list
-  default     = []
-}
-
-variable "rbac_group_domain" {
-  description = "Google Groups for RBAC requires a G Suite domain"
-  type        = string
-  default     = "skale-5.com"
+  description = "List of labels to apply to the cluster"
+  type        = map(any)
 }
 
 variable "network_policy" {
@@ -185,36 +159,36 @@ variable "csi_driver" {
 
 variable "config_connector" {
   description = "Enable the ConfigConnector addon"
-  type = bool
+  type        = bool
 }
 
 variable "maintenance_start_time" {
-  description = ""
+  description = "Time window specified for daily or recurring maintenance operations in RFC3339 format"
   type        = string
   default     = "03:00"
 }
 
 variable "auto_scaling_max_cpu" {
   type        = number
-  description = ""
+  description = "Maximum amount of CPU in the cluster"
   default     = 10
 }
 
 variable "auto_scaling_min_cpu" {
   type        = number
-  description = ""
+  description = "Minimum amount of CPU in the cluster"
   default     = 5
 }
 
 variable "auto_scaling_max_mem" {
   type        = number
-  description = ""
+  description = "Maximum amount of Memory in the cluster."
   default     = 20
 }
 
 variable "auto_scaling_min_mem" {
   type        = number
-  description = ""
+  description = "Minimum amount of Memory in the cluster"
   default     = 5
 }
 
@@ -255,11 +229,13 @@ variable "image_type" {
 }
 
 variable "node_labels" {
-  type = map
+  type        = map(any)
+  description = "Map of labels apply to nodes"
 }
 
 variable "node_tags" {
-  type = list(string)
+  type        = list(string)
+  description = "List of labels apply to nodes"
 }
 
 #######################################################################

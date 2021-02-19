@@ -13,10 +13,20 @@
 # limitations under the License.
 
 terraform {
-  required_version = ">= 0.13.2"
+  required_version = ">= 0.13.0"
 
   required_providers {
-    google      = ">= 3.41.0"
-    google-beta = ">= 3.41.0"
+    random = {
+      source  = "hashicorp/random"
+      version = "3.0.1"
+    }
+    google = {
+      source  = "hashicorp/google"
+      version = "3.54.0"
+    }
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = "3.54.0"
+    }
   }
 }
