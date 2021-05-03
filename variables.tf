@@ -247,6 +247,7 @@ variable "node_pools" {
     name                    = string
     default_service_account = string
     node_count              = number
+    autoscaling             = bool
     min_node_count          = number
     max_node_count          = number
     machine_type            = string
