@@ -32,6 +32,9 @@ locals {
     "https://www.googleapis.com/auth/cloud-platform",
   ]
 
+  cluster_maintenance_window_is_recurring = var.maintenance_recurrence != "" && var.maintenance_end_time != "" ? [1] : []
+  cluster_maintenance_window_is_daily     = length(local.cluster_maintenance_window_is_recurring) > 0 ? [] : [1]
+
   node_pool_timeout_create = "60m"
   node_pool_timeout_update = "60m"
   node_pool_timeout_delete = "60m"

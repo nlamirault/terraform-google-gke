@@ -115,24 +115,24 @@ resource "google_container_cluster" "cluster" {
 
   addons_config {
     http_load_balancing {
-      disabled = ! var.google_cloud_load_balancer
+      disabled = !var.google_cloud_load_balancer
     }
 
     horizontal_pod_autoscaling {
-      disabled = ! var.hpa
+      disabled = !var.hpa
     }
 
     network_policy_config {
-      disabled = ! var.network_policy
+      disabled = !var.network_policy
     }
 
     istio_config {
-      disabled = ! var.istio
+      disabled = !var.istio
       auth     = var.istio ? "AUTH_MUTUAL_TLS" : "AUTH_NONE"
     }
 
     cloudrun_config {
-      disabled = ! var.cloudrun
+      disabled = !var.cloudrun
     }
 
     gce_persistent_disk_csi_driver_config {
@@ -153,6 +153,35 @@ resource "google_container_cluster" "cluster" {
       start_time = var.maintenance_start_time
     }
   }
+
+  maintenance_policy {
+    dynamic "recurring_window" {
+      for_each = local.cluster_maintenance_window_is_recurring
+      content {
+        start_time = var.maintenance_start_time
+        end_time   = var.maintenance_end_time
+        recurrence = var.maintenance_recurrence
+      }
+    }
+
+    dynamic "daily_maintenance_window" {
+      for_each = local.cluster_maintenance_window_is_daily
+      content {
+        start_time = var.maintenance_start_time
+      }
+    }
+
+    dynamic "maintenance_exclusion" {
+      for_each = var.maintenance_exclusions
+      content {
+        exclusion_name = maintenance_exclusion.value.name
+        start_time     = maintenance_exclusion.value.start_time
+        end_time       = maintenance_exclusion.value.end_time
+      }
+    }
+
+  }
+
 
   lifecycle {
     ignore_changes = [initial_node_count]
