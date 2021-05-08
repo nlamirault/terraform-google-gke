@@ -142,6 +142,10 @@ resource "google_container_cluster" "cluster" {
     config_connector_config {
       enabled = var.config_connector
     }
+
+    dns_cache_config {
+      enabled = var.dns_cache
+    }
   }
 
   maintenance_policy {
