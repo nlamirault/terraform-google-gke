@@ -162,6 +162,11 @@ variable "config_connector" {
   type        = bool
 }
 
+variable "dns_cache" {
+  description = "Enable the NodeLocal DNSCache addon"
+  type        = bool
+}
+
 variable "maintenance_start_time" {
   description = "Time window specified for daily or recurring maintenance operations in RFC3339 format"
   type        = string
