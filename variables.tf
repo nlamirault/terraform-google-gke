@@ -15,12 +15,12 @@
 #######################################################################
 # Service Account for GKE
 
-variable project {
+variable "project" {
   type        = string
   description = "Project associated with the Service Account"
 }
 
-variable sa_roles {
+variable "sa_roles" {
   type        = set(string)
   description = "Role(s) to bind to the service account set into the cluster"
   default = [
@@ -35,60 +35,46 @@ variable sa_roles {
 ############################################################################
 # Kubernetes
 
-variable location {
+variable "location" {
   type        = string
   description = "The location of the cluster"
 }
 
-variable name {
+variable "name" {
   description = "Cluster name"
   type        = string
 }
 
-variable network {
+variable "network" {
   type        = string
   description = "Name of the network to use"
 }
 
-variable subnet_network {
+variable "subnet_network" {
   type        = string
   description = "Name of the subnet to use"
 }
 
-variable release_channel {
+variable "release_channel" {
   description = "Release cadence of the GKE cluster"
   type        = string
 }
 
-variable network_config {
+variable "network_config" {
   description = "VPC network configuration for the cluster"
-  type        = map
+  type        = map(any)
 }
 
-variable master_ipv4_cidr_block {
-  type = string
+variable "master_ipv4_cidr_block" {
+  type        = string
+  description = "The IP range in CIDR notation to use for the hosted master network"
 }
 
-# variable bastion_external_ip_name {
-#   type        = string
-#   description = "Name of the bastion external IP address"
-# }
-
-# variable nat_external_ip_0_name {
-#   type        = string
-#   description = "Name of the first External IP to use"
-# }
-
-# variable nat_external_ip_1_name {
-#   type        = string
-#   description = "Name of the second External IP to use"
-# }
-
-variable master_authorized_networks {
+variable "master_authorized_networks" {
   type        = list(object({ cidr_block = string, display_name = string }))
   description = "List of master authorized networks"
   # default = [
-  #   {
+  #  " {
   #     cidr_block   = "0.0.0.0/0"
   #     display_name = "internet"
   #   }
@@ -120,96 +106,145 @@ variable network_policy {
   default     = true
 }
 
-variable auto_scaling {
+variable "auto_scaling" {
   description = "Enable cluster autoscaling"
   type        = bool
 }
 
-variable hpa {
+variable "hpa" {
   description = "Enable Horizontal Pod Autoscaling"
   type        = bool
 }
 
-variable datapath_provider {
+variable "datapath_provider" {
   description = "The desired datapath provider for this cluster"
   type        = string
 }
 
-variable pod_security_policy {
+variable "pod_security_policy" {
   description = "Enable Pod Security Policy"
   type        = bool
   default     = true
 }
 
-variable monitoring_service {
+variable "shielded_nodes" {
+  description = "Enable Shielded Nodes features on all nodes in this cluster"
+  type        = bool
+  default     = false
+}
+
+variable "monitoring_service" {
   description = "Enable monitoring Service"
   type        = bool
   default     = true
 }
 
-variable logging_service {
+variable "logging_service" {
   description = "Enable logging Service"
   type        = bool
   default     = true
 }
 
-variable binary_authorization {
+variable "binary_authorization" {
   description = "Enable Binary Authorization"
   type        = bool
   default     = true
 }
 
-variable google_cloud_load_balancer {
+variable "google_cloud_load_balancer" {
   description = "Enable Google load balancer"
   type        = bool
 }
 
-variable istio {
+variable "istio" {
   description = "Enable Istio"
   type        = bool
 }
 
-variable cloudrun {
+variable "cloudrun" {
   description = "Enable Cloud Run on GKE (requires istio)"
   type        = bool
 }
 
-variable csi_driver {
+variable "csi_driver" {
   description = "Enable Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver"
   type        = bool
 }
 
-variable maintenance_start_time {
-  description = ""
-  type        = string
-  default     = "03:00"
+variable "config_connector" {
+  description = "Enable the ConfigConnector addon"
+  type        = bool
 }
 
-variable auto_scaling_max_cpu {
+variable "dns_cache" {
+  description = "Enable the NodeLocal DNSCache addon"
+  type        = bool
+}
+
+variable "maintenance_start_time" {
+  type        = string
+  description = "Time window specified for daily or recurring maintenance operations in RFC3339 format"
+  default     = "05:00"
+}
+
+variable "maintenance_end_time" {
+  type        = string
+  description = "Time window specified for recurring maintenance operations in RFC3339 format"
+  default     = "10:00"
+}
+
+variable "maintenance_recurrence" {
+  type        = string
+  description = "Frequency of the recurring maintenance window in RFC5545 format."
+  default     = "FREQ=DAILY"
+}
+
+variable "maintenance_exclusions" {
+  type = list(object({
+    name       = string,
+    start_time = string,
+    end_time   = string
+  }))
+  description = "List of maintenance exclusions. A cluster can have up to three"
+  default = [
+    {
+      name       = "Data Job"
+      start_time = "2021-05-21T00:00:00Z"
+      end_time   = "2021-05-21T00:00:00Z"
+    },
+    {
+      name       = "Happy new year"
+      start_time = "2022-01-01T00:00:00Z"
+      end_time   = "2022-01-02T00:00:00Z"
+    }
+  ]
+}
+
+variable "auto_scaling_max_cpu" {
   type        = number
-  description = ""
+  description = "Maximum amount of CPU in the cluster"
   default     = 10
 }
 
-variable auto_scaling_min_cpu {
+variable "auto_scaling_min_cpu" {
   type        = number
-  description = ""
+  description = "Minimum amount of CPU in the cluster"
   default     = 5
 }
 
-variable auto_scaling_max_mem {
+variable "auto_scaling_max_mem" {
   type        = number
-  description = ""
+  description = "Maximum amount of Memory in the cluster."
   default     = 20
 }
 
-variable auto_scaling_min_mem {
+variable "auto_scaling_min_mem" {
   type        = number
-  description = ""
+  description = "Minimum amount of Memory in the cluster"
   default     = 5
 }
 
-variable default_max_pods_per_node {
+variable "default_max_pods_per_node" {
   type        = number
   description = "The default maximum number of pods per node in this cluster."
 }
@@ -217,49 +252,54 @@ variable default_max_pods_per_node {
 #####################################################################""
 # Kubernetes node pool
 
-variable oauth_scopes {
+variable "oauth_scopes" {
   type        = list(string)
   description = "Other oauth scopes to add to the node pools"
   default     = []
 }
 
-variable auto_upgrade {
+variable "auto_upgrade" {
   type        = bool
   description = "Whether the nodes will be automatically upgraded"
 }
 
-variable auto_repair {
+variable "auto_repair" {
   type        = bool
   description = "Whether the nodes will be automatically repaired"
 }
 
-variable node_metadata {
+variable "node_metadata" {
   type        = string
   description = "How to expose the node metadata to the workload running on the node."
   default     = "GKE_METADATA_SERVER"
 }
 
-variable image_type {
-  default = "COS"
+variable "image_type" {
+  description = "The image type to use for the node(s)"
+  type        = string
+  default     = "COS_CONTAINERD"
 }
 
-variable node_labels {
-  type = map
+variable "node_labels" {
+  type        = map(any)
+  description = "Map of labels apply to nodes"
 }
 
-variable node_tags {
-  type = list(string)
+variable "node_tags" {
+  type        = list(string)
+  description = "List of labels apply to nodes"
 }
 
 #######################################################################
 # Node pools addons
 
-variable node_pools {
+variable "node_pools" {
   description = "Addons node pools"
   type = list(object({
     name                    = string
     default_service_account = string
     node_count              = number
+    autoscaling             = bool
     min_node_count          = number
     max_node_count          = number
     machine_type            = string

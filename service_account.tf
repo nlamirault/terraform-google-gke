@@ -25,7 +25,7 @@ resource "google_service_account" "cluster_service_account" {
   display_name = "Terraform-managed service account for GKE"
 }
 
-resource "google_project_iam_member" "cluster_service_account-log_writer" {
+resource "google_project_iam_member" "cluster_service_account_log_writer" {
   for_each = var.sa_roles
   project  = var.project
   role     = each.value

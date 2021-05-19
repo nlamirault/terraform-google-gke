@@ -18,22 +18,22 @@ locals {
     cidr_blocks : var.master_authorized_networks
   }]
 
-  autoscalling_resource_limits = var.auto_scaling ? [
-    {
-      resource_type = "cpu"
-      minimum       = var.auto_scaling_min_cpu
-      maximum       = var.auto_scaling_max_cpu
-    },
-    {
-      resource_type = "memory"
-      minimum       = var.auto_scaling_min_mem
-      maximum       = var.auto_scaling_max_mem
-    }
-  ] : []
+  autoscalling_resource_limits = var.auto_scaling ? [{
+    resource_type = "cpu"
+    minimum       = var.auto_scaling_min_cpu
+    maximum       = var.auto_scaling_max_cpu
+    }, {
+    resource_type = "memory"
+    minimum       = var.auto_scaling_min_mem
+    maximum       = var.auto_scaling_max_mem
+  }] : []
 
   oauth_scopes = [
     "https://www.googleapis.com/auth/cloud-platform",
   ]
+
+  cluster_maintenance_window_is_recurring = var.maintenance_recurrence != "" && var.maintenance_end_time != "" ? [1] : []
+  cluster_maintenance_window_is_daily     = length(local.cluster_maintenance_window_is_recurring) > 0 ? [] : [1]
 
   node_pool_timeout_create = "60m"
   node_pool_timeout_update = "60m"

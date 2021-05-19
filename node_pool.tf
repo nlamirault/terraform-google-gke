@@ -22,9 +22,12 @@ resource "google_container_node_pool" "core" {
   cluster    = google_container_cluster.cluster.name
   node_count = var.node_pools[count.index].node_count
 
-  autoscaling {
-    min_node_count = var.node_pools[count.index].min_node_count
-    max_node_count = var.node_pools[count.index].max_node_count
+  dynamic "autoscaling" {
+    for_each = var.node_pools[count.index].autoscaling ? [1] : []
+    content {
+      min_node_count = var.node_pools[count.index].min_node_count
+      max_node_count = var.node_pools[count.index].max_node_count
+    }
   }
 
   management {
