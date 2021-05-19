@@ -80,7 +80,6 @@ resource "google_container_cluster" "cluster" {
         maximum       = lookup(resource_limits.value, "maximum")
       }
     }
-  }
 
   master_auth {
     username = ""

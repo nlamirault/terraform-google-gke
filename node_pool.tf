@@ -60,6 +60,15 @@ resource "google_container_node_pool" "core" {
     service_account = var.node_pools[count.index].default_service_account ? "default" : google_service_account.cluster_service_account.email
 
     oauth_scopes = concat(local.oauth_scopes, var.oauth_scopes)
+
+    dynamic "taint" {
+      for_each = var.node_pools[count.index].taints
+      content {
+        effect = taint.value.effect
+        key    = taint.value.key
+        value  = taint.value.value
+      }
+    }
   }
 
   timeouts {
