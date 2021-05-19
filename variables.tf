@@ -81,26 +81,12 @@ variable "master_authorized_networks" {
   # ]
 }
 
-variable labels {
-  description = "List of Kubernetes labels to apply to the nodes"
-  type        = map
-  default = {
-    "service" = "kubernetes"
-  }
+variable "labels" {
+  description = "List of labels to apply to the cluster"
+  type        = map(any)
 }
 
-variable tags {
-  description = "The list of instance tags applied to all nodes."
-  type        = list
-  default     = ["kubernetes"]
-}
-
-variable rbac_group_domain {
-  description = "Google Groups for RBAC requires a G Suite domain"
-  type        = string
-}
-
-variable network_policy {
+variable "network_policy" {
   description = "Enable Network Policy"
   type        = bool
   default     = true
