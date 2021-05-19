@@ -168,9 +168,42 @@ variable "dns_cache" {
 }
 
 variable "maintenance_start_time" {
-  description = "Time window specified for daily or recurring maintenance operations in RFC3339 format"
   type        = string
-  default     = "03:00"
+  description = "Time window specified for daily or recurring maintenance operations in RFC3339 format"
+  default     = "05:00"
+}
+
+variable "maintenance_end_time" {
+  type        = string
+  description = "Time window specified for recurring maintenance operations in RFC3339 format"
+  default     = "10:00"
+}
+
+variable "maintenance_recurrence" {
+  type        = string
+  description = "Frequency of the recurring maintenance window in RFC5545 format."
+  default     = "FREQ=DAILY"
+}
+
+variable "maintenance_exclusions" {
+  type = list(object({
+    name       = string,
+    start_time = string,
+    end_time   = string
+  }))
+  description = "List of maintenance exclusions. A cluster can have up to three"
+  default = [
+    {
+      name       = "Data Job"
+      start_time = "2021-05-21T00:00:00Z"
+      end_time   = "2021-05-21T00:00:00Z"
+    },
+    {
+      name       = "Happy new year"
+      start_time = "2022-01-01T00:00:00Z"
+      end_time   = "2022-01-02T00:00:00Z"
+    }
+  ]
 }
 
 variable "auto_scaling_max_cpu" {
