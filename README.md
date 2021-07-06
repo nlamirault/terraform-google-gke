@@ -154,17 +154,17 @@ node_tags = ["kubernetes", "nodes", "nat-europe-west1"]
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.13.0 |
-| google | 3.54.0 |
-| google-beta | 3.54.0 |
+| terraform | >= 1.0.0 |
+| google | 3.74.0 |
+| google-beta | 3.74.0 |
 | random | 3.1.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| google | 3.54.0 |
-| google-beta | 3.54.0 |
+| google | 3.74.0 |
+| google-beta | 3.74.0 |
 | random | 3.1.0 |
 
 ## Modules
@@ -175,11 +175,11 @@ No Modules.
 
 | Name |
 |------|
-| [google-beta_google_container_cluster](https://registry.terraform.io/providers/hashicorp/google-beta/3.54.0/docs/resources/google_container_cluster) |
-| [google-beta_google_container_node_pool](https://registry.terraform.io/providers/hashicorp/google-beta/3.54.0/docs/resources/google_container_node_pool) |
-| [google_client_config](https://registry.terraform.io/providers/hashicorp/google/3.54.0/docs/data-sources/client_config) |
-| [google_project_iam_member](https://registry.terraform.io/providers/hashicorp/google/3.54.0/docs/resources/project_iam_member) |
-| [google_service_account](https://registry.terraform.io/providers/hashicorp/google/3.54.0/docs/resources/service_account) |
+| [google-beta_google_container_cluster](https://registry.terraform.io/providers/hashicorp/google-beta/3.74.0/docs/resources/google_container_cluster) |
+| [google-beta_google_container_node_pool](https://registry.terraform.io/providers/hashicorp/google-beta/3.74.0/docs/resources/google_container_node_pool) |
+| [google_client_config](https://registry.terraform.io/providers/hashicorp/google/3.74.0/docs/data-sources/client_config) |
+| [google_project_iam_member](https://registry.terraform.io/providers/hashicorp/google/3.74.0/docs/resources/project_iam_member) |
+| [google_service_account](https://registry.terraform.io/providers/hashicorp/google/3.74.0/docs/resources/service_account) |
 | [random_string](https://registry.terraform.io/providers/hashicorp/random/3.1.0/docs/resources/string) |
 
 ## Inputs
@@ -220,7 +220,7 @@ No Modules.
 | network\_policy | Enable Network Policy | `bool` | `true` | no |
 | node\_labels | Map of labels apply to nodes | `map(any)` | n/a | yes |
 | node\_metadata | How to expose the node metadata to the workload running on the node. | `string` | `"GKE_METADATA_SERVER"` | no |
-| node\_pools | Addons node pools | <pre>list(object({<br>    name                    = string<br>    default_service_account = string<br>    node_count              = number<br>    autoscaling             = bool<br>    min_node_count          = number<br>    max_node_count          = number<br>    machine_type            = string<br>    disk_size_gb            = number<br>    max_pods_per_node       = number<br>    preemptible             = bool<br>  }))</pre> | `[]` | no |
+| node\_pools | Addons node pools | <pre>list(object({<br>    name                    = string<br>    default_service_account = string<br>    node_count              = number<br>    autoscaling             = bool<br>    min_node_count          = number<br>    max_node_count          = number<br>    machine_type            = string<br>    disk_size_gb            = number<br>    max_pods_per_node       = number<br>    preemptible             = bool<br>    taints                  = list(map(string))<br>  }))</pre> | `[]` | no |
 | node\_tags | List of labels apply to nodes | `list(string)` | n/a | yes |
 | oauth\_scopes | Other oauth scopes to add to the node pools | `list(string)` | `[]` | no |
 | pod\_security\_policy | Enable Pod Security Policy | `bool` | `true` | no |

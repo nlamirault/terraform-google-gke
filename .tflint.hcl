@@ -56,6 +56,6 @@ plugin "portefaix" {
   enabled = true
 }
 
-rule "terraform_portefaix_standard_structure" { enabled = true }
-rule "terraform_portefaix_standard_files" { enabled = true }
+rule "terraform_portefaix_standard_structure" { enabled = false }
+rule "terraform_portefaix_standard_files" { enabled = false }
 rule "terraform_portefaix_tfenv" { enabled = true }
