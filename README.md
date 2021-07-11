@@ -155,17 +155,17 @@ node_tags = ["kubernetes", "nodes", "nat-europe-west1"]
 | Name | Version |
 |------|---------|
 | terraform | >= 1.0.0 |
-| google | 3.74.0 |
-| google-beta | 3.74.0 |
-| random | 3.1.0 |
+| google | >= 3.74.0 |
+| google-beta | >= 3.74.0 |
+| random | >= 3.1.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| google | 3.74.0 |
-| google-beta | 3.74.0 |
-| random | 3.1.0 |
+| google | >= 3.74.0 |
+| google-beta | >= 3.74.0 |
+| random | >= 3.1.0 |
 
 ## Modules
 
