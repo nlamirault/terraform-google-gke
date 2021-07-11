@@ -149,12 +149,6 @@ resource "google_container_cluster" "cluster" {
   }
 
   maintenance_policy {
-    daily_maintenance_window {
-      start_time = var.maintenance_start_time
-    }
-  }
-
-  maintenance_policy {
     dynamic "recurring_window" {
       for_each = local.cluster_maintenance_window_is_recurring
       content {
@@ -181,7 +175,6 @@ resource "google_container_cluster" "cluster" {
     }
 
   }
-
 
   lifecycle {
     ignore_changes = [initial_node_count]
