@@ -170,13 +170,13 @@ variable "dns_cache" {
 variable "maintenance_start_time" {
   type        = string
   description = "Time window specified for daily or recurring maintenance operations in RFC3339 format"
-  default     = "05:00"
+  default     = "2006-01-02T02:00:00Z"
 }
 
 variable "maintenance_end_time" {
   type        = string
   description = "Time window specified for recurring maintenance operations in RFC3339 format"
-  default     = "10:00"
+  default     = "2006-01-02T08:00:00Z"
 }
 
 variable "maintenance_recurrence" {
@@ -196,12 +196,12 @@ variable "maintenance_exclusions" {
     {
       name       = "Data Job"
       start_time = "2021-05-21T00:00:00Z"
-      end_time   = "2021-05-21T00:00:00Z"
+      end_time   = "2021-05-21T23:59:00Z"
     },
     {
       name       = "Happy new year"
       start_time = "2022-01-01T00:00:00Z"
-      end_time   = "2022-01-02T00:00:00Z"
+      end_time   = "2022-01-02T23:59:00Z"
     }
   ]
 }
